@@ -14,13 +14,12 @@ date="2023-01-01"
 for day in "${commits_per_day[@]}"
 do
     if [ $day -eq 1 ]; then
-      echo "commit on $date"
-      # Navigate to your Git repository directory
-      # cd /path/to/your/repository
-      # git add .
-      # git commit -m "Your commit message goes here" --date="$date 11:11:11"
+      cd /home/admin/commit-graph-iti
+      git add .
+      git commit -m "cheeky commit history rewrite" --date="$date 11:11:11"  
+      echo "added, committed and pushed on $date"
     else
-      echo "no commit"
+      echo "no commit on $date"
     fi
     date=$(date -d "$date + 1 day" +'%Y-%m-%d')
 done
