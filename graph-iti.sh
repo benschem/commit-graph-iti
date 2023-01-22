@@ -16,7 +16,7 @@ do
     if [ $day -eq 1 ]; then
       cd /home/admin/commit-graph-iti
       git add .
-      git commit -m "cheeky commit history rewrite" --date="$date 11:11:11"  
+      git commit --allow-empty -m "cheeky commit history rewrite" --date="$date 11:11:11"  
       echo "added, committed and pushed on $date"
     else
       echo "no commit on $date"
