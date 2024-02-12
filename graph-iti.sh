@@ -23,3 +23,5 @@ do
     fi
     date=$(date -d "$date + 1 day" +'%Y-%m-%d')
 done
+
+git push origin main
