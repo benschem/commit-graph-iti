@@ -1,20 +1,32 @@
-#!/bin/bash
+#!/bin/bash -e
 
-date="2024-01-01"
+cd /home/admin/commit-graph-iti
 
-for day in {1..43} ; do
-    cd /home/admin/commit-graph-iti
+LOG_FILE="/error.log"
+today=`date +'%Y-%m-%d %T'`
 
-    random_number=$((1 + RANDOM % 100))
 
-    if [ "$random_number" -gt 40 ]; then
-          git add .
-          git commit --allow-empty -m "cheeky commit history rewrite" --date="$date 11:11:11"  
-          echo "committed on $date"
-    else
-      echo "no commit on $date"
-    fi
-    date=$(date -d "$date + 1 day" +'%Y-%m-%d')
-done
+log_error() {
+    echo "ERROR - [$today] $1" >> "$LOG_FILE"
+}
+
+cleanup() {
+    local exit_status=$?
+    log_error "Error occurred on line $1."
+    exit $exit_status
+}
+trap 'cleanup $LINENO' ERR
+
+random_number=$((1 + RANDOM % 100))
+percent_chance_of_committing=60
+commit_today=$((random_number > (100 - percent_chance_of_committing)))
+
+if [ "$commit_today" = true ]; then
+    git add .
+    git commit --allow-empty -m "cheeky commit history rewrite" --date="$today"  
+    echo "INFO - [$today] Committed successfully." >> "$LOG_FILE"
+else
+    echo "INFO - [$today] No commit made." >> "$LOG_FILE"
+fi
 
 git push origin main
